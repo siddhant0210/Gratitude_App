@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gratitude.R
 import com.example.gratitude.ViewModels.SharedViewModel
+import com.example.gratitude.adapters.JournalAdapter
 import com.example.gratitude.databinding.FragmentBottom1Binding
 import com.example.gratitude.helper.USERNAME
+import com.example.gratitude.models.JournalEntry
 import com.example.gratitude.prefmanager.PrefManager
 
 class Bottom1Fragment : Fragment() {
@@ -20,6 +22,8 @@ class Bottom1Fragment : Fragment() {
     private lateinit var prefManager: PrefManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: SharedViewModel
+    private lateinit var journalAdapter: JournalAdapter
+    private val journalEntries = mutableListOf<JournalEntry>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +37,14 @@ class Bottom1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.journal.text =  "${prefManager.getUserName(USERNAME)}'s Journal "
+        binding.journal.text = "${prefManager.getUserName(USERNAME)}'s Journal "
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        journalAdapter = JournalAdapter(journalEntries)
+        binding.recyclerView.adapter = journalAdapter
 
+        addSampleData()
         binding.extendedFab.setOnClickListener {
             viewModel.fabClicked.value = true
         }
@@ -49,5 +57,21 @@ class Bottom1Fragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun addSampleData() {
+        journalEntries.add(
+            JournalEntry(
+                1,
+                "Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family. "
+            )
+        )
+        journalEntries.add(JournalEntry(2, "I enjoyed a beautiful sunset."))
+        journalEntries.add(JournalEntry(3, "I learned something new today."))
+        journalEntries.add(JournalEntry(4, "I had a great conversation with a friend."))
+        journalEntries.add(JournalEntry(5, "I completed a challenging project at work."))
+
+        // Notify the adapter about the new data
+        journalAdapter.notifyDataSetChanged()
     }
 }

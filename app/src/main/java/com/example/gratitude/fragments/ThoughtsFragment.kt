@@ -1,5 +1,6 @@
 package com.example.gratitude.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,10 @@ import com.example.gratitude.R
 import com.example.gratitude.activities.LandingActivity
 import com.example.gratitude.databinding.FragmentThoughtsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
 
 class ThoughtsFragment : Fragment() {
 
@@ -28,6 +33,8 @@ class ThoughtsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setTodayDate()
         val activity = requireActivity() as LandingActivity
         val bottomNav = activity.findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.visibility = View.GONE
@@ -49,6 +56,13 @@ class ThoughtsFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setTodayDate() {
+        val dateFormat = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+        val today = dateFormat.format(Date())
+        binding.date.text = "Today: $today"
     }
 
 }

@@ -66,7 +66,7 @@ class Bottom1Fragment : Fragment() {
                 "Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family.Today I am grateful for my family. "
             )
         )
-        journalEntries.add(JournalEntry(2, "I enjoyed a beautiful sunset."))
+        journalEntries.add(JournalEntry(2, "I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset.I enjoyed a beautiful sunset."))
         journalEntries.add(JournalEntry(3, "I learned something new today."))
         journalEntries.add(JournalEntry(4, "I had a great conversation with a friend."))
         journalEntries.add(JournalEntry(5, "I completed a challenging project at work."))

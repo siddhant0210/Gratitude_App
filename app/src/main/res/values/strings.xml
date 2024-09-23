@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Gratitude</string>
+    <string name="btn_existing_user"> Already an Existing User?</string>
+    <string name="btn_new_user">Lets get started</string>
+    <string name="tv_name">What should we call you? </string>
+    <string name="hint_name">    Enter your name</string>
+    <string name="continue_name">Continue</string>
+    <string name="back_name">back</string>
+    <string name="search">   Search your Entries</string>
+    <string name="entry">  Write Entry</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_your_entries">Search your Entries</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_item1"
+        android:icon="@drawable/baseline_menu_book_24"
+        android:title="Journal" />
+    <item
+        android:id="@+id/nav_item2"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Affirmation" />
+    <item
+        android:id="@+id/nav_item3"
+        android:icon="@drawable/outline_circle_24"
+        android:title="Daily Zen" />
+    <item
+        android:id="@+id/nav_item4"
+        android:icon="@drawable/baseline_check_box_outline_blank_24"
+        android:title="Vision Board" />
+</menu>

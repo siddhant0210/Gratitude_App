@@ -25,4 +25,12 @@ class PrefManager(context: Context) {
         return pref?.getBoolean(key, false)!!
     }
 
+    fun setVisionName(key:String, id: String){
+        pref?.edit{putString(key, id)}
+    }
+
+    fun getVisionName(key: String):String?{
+        return pref?.getString(key, "")
+    }
+
 }

@@ -18,6 +18,7 @@ import com.example.gratitude.fragments.ChallengesFragment
 import com.example.gratitude.fragments.NavFragment
 import com.example.gratitude.fragments.StreakFragment
 import com.example.gratitude.fragments.ThoughtsFragment
+import com.example.gratitude.helper.SELECTEDTAB
 import com.example.gratitude.helper.USERNAME
 import com.example.gratitude.prefmanager.PrefManager
 
@@ -37,6 +38,17 @@ class LandingActivity : AppCompatActivity() {
 
 //        binding.toolbarTitle.text = "Welcome " + prefManager.getUserName(USERNAME)
         binding.toolbarTitle.visibility = View.VISIBLE
+
+
+        val selectedTab = intent.getIntExtra("selected-tab", 0)
+        binding.bottomNavigation.selectedItemId = when (selectedTab) {
+            0 -> R.id.nav_item1
+            1 -> R.id.nav_item2
+            2 -> R.id.nav_item3
+            3 -> R.id.nav_item4
+            else -> R.id.nav_item1
+        }
+
         if (savedInstanceState == null) {
             replaceFrag(Bottom1Fragment())
             binding.bottomNavigation.selectedItemId = R.id.nav_item1 // Select first item in bottom navigation

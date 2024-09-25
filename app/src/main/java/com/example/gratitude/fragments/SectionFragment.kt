@@ -39,11 +39,11 @@ class SectionFragment : Fragment() {
         }
 
         binding.btnContinue.setOnClickListener {
-            prefManager.setVisionName(SECTIONNAME, binding.searchBar.text.toString())
+            prefManager.setSectionName(SECTIONNAME, binding.searchBar.text.toString())
             if (binding.btnContinue.isEnabled) {
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_container, SectionFragment())
-//                    .commit()
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, AddPhotosFragment())
+                    .commit()
             }
         }
 

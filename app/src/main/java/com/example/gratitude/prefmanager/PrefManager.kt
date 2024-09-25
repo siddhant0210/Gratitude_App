@@ -33,4 +33,12 @@ class PrefManager(context: Context) {
         return pref?.getString(key, "")
     }
 
+    fun setSectionName(key: String, id: String){
+        pref?.edit{putString(key,id)}
+    }
+
+    fun getSectionName(key: String): String?{
+        return pref?.getString(key, "")
+    }
+
 }

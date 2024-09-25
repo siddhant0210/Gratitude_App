@@ -25,14 +25,8 @@ class SectionBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnClose.setOnClickListener {
+        binding.btnGotit.setOnClickListener {
             dismiss()
-        }
-
-        binding.algoButton.setOnClickListener {
-        }
-
-        binding.courseButton.setOnClickListener {
         }
     }
 

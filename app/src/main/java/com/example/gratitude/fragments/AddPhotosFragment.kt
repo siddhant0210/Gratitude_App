@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,15 +36,15 @@ class AddPhotosFragment : Fragment() {
 
     private lateinit var binding: FragmentAddPhotosBinding
     private lateinit var prefManager: PrefManager
-    private lateinit var getImage: ActivityResultLauncher<Intent>
+    private lateinit var imageResultLauncher: ActivityResultLauncher<Intent>
     private val imageUris = mutableListOf<Uri>()
     private lateinit var imageAdapter: ImageSectionAdapter
-    private lateinit var requestPermission: ActivityResultLauncher<String>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddPhotosBinding.inflate(inflater, container, false)
         prefManager = PrefManager(requireContext())
         return binding.root
@@ -51,6 +52,31 @@ class AddPhotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+        setupFabClickListener()
+        setupImageClickListener()
+        setupPermissionRequestLauncher()
+        setupImageResultLauncher()
+        initializeImageAdapter()
+
+
+        // Set up the popup menu button
+        binding.overflowButton.setOnClickListener { showPopupMenu(it) }
+    }
+
+    private fun openImageGalleryFragment() {
+        val imageGalleryFragment = ImageGalleryFragment().apply {
+            arguments = Bundle().apply {
+                putParcelableArrayList("imageUris", ArrayList(imageUris))
+            }
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_container, imageGalleryFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun setupToolbar() {
         val activity = requireActivity() as LandingActivity
         val bottomNav = activity.findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.visibility = View.VISIBLE
@@ -64,37 +90,38 @@ class AddPhotosFragment : Fragment() {
         challengeIcon.visibility = View.VISIBLE
         val toolbar = activity.findViewById<Toolbar>(R.id.toolbar)
         toolbar.navigationIcon = null
-        binding.tvName.text = "${prefManager.getVisionName(VISIONNAME)}"
-        binding.imageDescription.text = "${prefManager.getSectionName(SECTIONNAME)}"
 
+        binding.tvName.text = prefManager.getVisionName(VISIONNAME)
+        binding.imageDescription.text = prefManager.getSectionName(SECTIONNAME)
+    }
 
+    private fun setupFabClickListener() {
+        binding.extendedFab.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.main_container, SubscriptionFragment())
+                .commit()
+        }
+    }
 
+    private fun setupImageClickListener() {
         binding.visionImage.setOnClickListener {
             requestStoragePermission()
         }
+    }
 
-        requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+    private fun setupPermissionRequestLauncher() {
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 openImageChooser()
             } else {
                 showPermissionDeniedSnackbar()
             }
         }
+    }
 
-
-//        getImage =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//                if (result.resultCode == Activity.RESULT_OK) {
-//                    val data = result.data
-//                    data?.data?.let { uri ->
-//                        imageUris.add(uri)  // Add the URI to the list
-//                        imageAdapter.notifyItemInserted(imageUris.size - 1)  // Notify adapter
-//                        binding.visionImage.visibility = View.GONE
-//                    }
-//                }
-//            }
-
-        getImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private fun setupImageResultLauncher() {
+        imageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
                     if (data.clipData != null) {
@@ -102,33 +129,30 @@ class AddPhotosFragment : Fragment() {
                         val count = data.clipData!!.itemCount
                         for (i in 0 until count) {
                             val uri = data.clipData!!.getItemAt(i).uri
-                            imageUris.add(uri)  // Add the URI to the list
                             addImageToGrid(uri)
-//                            imageAdapter.notifyItemInserted(imageUris.size - 1)  // Notify adapter
                         }
-                        binding.visionImage.visibility = View.GONE  // Hide the add icon
+                        binding.visionImage.visibility = View.GONE // Hide the add icon
                     } else {
                         // Handle single image selection
                         data.data?.let { uri ->
-                            imageUris.add(uri)  // Add the URI to the list
                             addImageToGrid(uri)
-//                            imageAdapter.notifyItemInserted(imageUris.size - 1)  // Notify adapter
-                            binding.visionImage.visibility = View.GONE  // Hide the add icon
+                            binding.visionImage.visibility = View.GONE // Hide the add icon
                         }
                     }
                 }
             }
         }
-
-
-
-        imageAdapter = ImageSectionAdapter(imageUris)
-//        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//        binding.recyclerView.adapter = imageAdapter
-
     }
 
-    private fun addImageToGrid(uri: Uri?) {
+    private fun initializeImageAdapter() {
+        imageAdapter = ImageSectionAdapter(imageUris)
+        // Setup RecyclerView with imageAdapter if necessary
+        // binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        // binding.recyclerView.adapter = imageAdapter
+    }
+
+    private fun addImageToGrid(uri: Uri) {
+        imageUris.add(uri)
         val imageView = ImageView(requireContext()).apply {
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
@@ -138,10 +162,14 @@ class AddPhotosFragment : Fragment() {
             setImageURI(uri)
             scaleType = ImageView.ScaleType.CENTER_CROP
 
-            // Optionally, you can set a margin around the image
+            // Set margins around the image
             val layoutParams = layoutParams as GridLayout.LayoutParams
             layoutParams.setMargins(4, 4, 4, 4)
             this.layoutParams = layoutParams
+
+            setOnClickListener {
+                openImageGalleryFragment()
+            }
         }
         binding.imageGrid.addView(imageView)
     }
@@ -149,12 +177,11 @@ class AddPhotosFragment : Fragment() {
     private fun openImageChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)  // Allow multiple images
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) // Allow multiple images
             addCategory(Intent.CATEGORY_OPENABLE)
         }
-        getImage.launch(Intent.createChooser(intent, "Select Pictures"))
+        imageResultLauncher.launch(Intent.createChooser(intent, "Select Pictures"))
     }
-
 
     private fun requestStoragePermission() {
         when {
@@ -162,11 +189,10 @@ class AddPhotosFragment : Fragment() {
                 openImageChooser()
             }
             else -> {
-                requestPermission.launch(Manifest.permission.ACCESS_MEDIA_LOCATION)  // Request the system permission dialog
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_MEDIA_LOCATION) // Request permission
             }
         }
     }
-
 
     private fun showPermissionDeniedSnackbar() {
         Snackbar.make(binding.root, "Permission to access storage is required to add images.", Snackbar.LENGTH_LONG)
@@ -177,5 +203,44 @@ class AddPhotosFragment : Fragment() {
             }.show()
     }
 
+    private fun showPopupMenu(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.menuInflater.inflate(R.menu.photos_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_one -> {
+                    true
+                }
+                R.id.action_two -> {
+                    true
+                }
+                R.id.action_three -> {
+                    true
+                }
+                R.id.action_four -> {
+                    true
+                }
+                R.id.action_five ->{
+                    true
+                }
+                R.id.action_siz ->{
+                    removeAllImages()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show() // Show the popup menu
+    }
+
+    private fun removeAllImages() {
+        imageUris.clear() // Clear the list of image URIs
+        binding.imageGrid.removeAllViews() // Remove all views from the grid
+        binding.visionImage.visibility = View.VISIBLE // Show the add icon again
+        // Notify the adapter if you're using one
+        imageAdapter.notifyDataSetChanged()
+    }
 
 }

@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/baseline_widgets_24"
+        android:id="@+id/action_one"
+        android:title="Add as Widget" />
+    <item
+        android:icon="@drawable/baseline_download_24"
+        android:id="@+id/action_two"
+        android:title="Download as Polaroids" />
+    <item
+        android:icon="@drawable/baseline_share_24"
+        android:id="@+id/action_three"
+        android:title="Share with friends" />
+    <item
+        android:icon="@drawable/baseline_menu_book_24"
+        android:id="@+id/action_four"
+        android:title="Vision Board Guide" />
+    <item
+        android:icon="@drawable/baseline_edit_24"
+        android:id="@+id/action_five"
+        android:title="Edit Board Name" />
+    <item
+        android:icon="@drawable/baseline_delete_24"
+        android:id="@+id/action_siz"
+        android:title="Delete Vision Board" />
+</menu>

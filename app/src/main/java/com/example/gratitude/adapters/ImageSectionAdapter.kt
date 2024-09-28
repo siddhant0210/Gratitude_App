@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gratitude.R
 
-class ImageSectionAdapter(private val images: List<Uri>) : RecyclerView.Adapter<ImageSectionAdapter.ImageViewHolder>() {
+class ImageSectionAdapter(private val images: MutableList<Uri>) : RecyclerView.Adapter<ImageSectionAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
@@ -30,5 +30,9 @@ class ImageSectionAdapter(private val images: List<Uri>) : RecyclerView.Adapter<
 
     override fun getItemCount(): Int {
         return images.size
+    }
+    fun updateImageUris(newImages: List<Uri>) {
+        images.addAll(newImages) // Add the new images
+        notifyDataSetChanged() // Notify the adapter to refresh the RecyclerView
     }
 }

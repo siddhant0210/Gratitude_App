@@ -21,7 +21,6 @@ class OnBoardingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         prefManager = PrefManager(this)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,12 +49,14 @@ class OnBoardingActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.btnContinue.isEnabled = !s.isNullOrEmpty()
+                val isNotEmpty = !s.isNullOrEmpty()
 
-                binding.btnContinue.isEnabled = true
+                binding.btnContinue.isEnabled = isNotEmpty
+
+                // Set the button background color based on whether it's enabled or not
                 binding.btnContinue.setBackgroundColor(
-                    if (binding.btnContinue.isEnabled) {
-                        getColor(R.color.purple)
+                    if (isNotEmpty) {
+                        getColor(R.color.yellow)
                     } else {
                         getColor(R.color.white)
                     }

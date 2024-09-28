@@ -83,10 +83,10 @@ class VisionBoardFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val isEnabled = !s.isNullOrEmpty()
-                binding.btnContinue.isEnabled = true
+                binding.btnContinue.isEnabled = isEnabled
                 binding.btnContinue.setBackgroundColor(
                     ContextCompat.getColor(requireContext(),
-                        if (isEnabled) R.color.purple else R.color.white)
+                        if (isEnabled) R.color.yellow else R.color.white)
                 )
             }
 

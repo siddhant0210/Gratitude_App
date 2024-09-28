@@ -1,5 +1,6 @@
 package com.example.gratitude.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,5 +45,9 @@ class SubscriptionFragment : Fragment() {
         challengeIcon.visibility = View.GONE
         val toolbar = activity.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
+
+        toolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 }

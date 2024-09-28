@@ -12,17 +12,20 @@ import androidx.appcompat.widget.Toolbar  // Use this import
 import com.example.gratitude.R
 import com.example.gratitude.activities.LandingActivity
 import com.example.gratitude.databinding.FragmentNavBinding
+import com.example.gratitude.helper.USERNAME
+import com.example.gratitude.prefmanager.PrefManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavFragment : Fragment() {
 
     private lateinit var binding: FragmentNavBinding
-
+    private lateinit var prefManager: PrefManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNavBinding.inflate(inflater, container, false)
+        prefManager = PrefManager(requireContext())
         return binding.root
     }
 
@@ -49,6 +52,22 @@ class NavFragment : Fragment() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             requireActivity().finish()
+        }
+
+        binding.tvName.text = "${prefManager.getUserName(USERNAME)}"
+
+        binding.editBtn.setOnClickListener {
+
+        }
+
+        binding.crossbtn.setOnClickListener {
+            binding.troubleshootBtn.visibility = View.GONE
+        }
+        binding.probtn.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_container, SubscriptionFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

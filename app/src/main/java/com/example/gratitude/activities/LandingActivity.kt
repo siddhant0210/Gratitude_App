@@ -37,7 +37,7 @@ class LandingActivity : AppCompatActivity() {
 
 
         // Set status bar color to transparent
-        window.statusBarColor = getColor(android.R.color.white)
+        window.statusBarColor = getColor(R.color.yellow)
 //        binding.toolbarTitle.text = "Welcome " + prefManager.getUserName(USERNAME)
         binding.toolbarTitle.visibility = View.VISIBLE
 

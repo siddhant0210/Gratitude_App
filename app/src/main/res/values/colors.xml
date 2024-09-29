@@ -5,6 +5,7 @@
     <color name="purple">#FF00FF</color>
     <color name="yellow">#ffdbac</color>
     <color name="red">#FFFF0000</color>
+    <color name="lightRed">#FFB6C1</color>
     <color name="blue">#90D5FF</color>
     <color name="status_bar_color">#80FFFFFF</color>
 </resources>

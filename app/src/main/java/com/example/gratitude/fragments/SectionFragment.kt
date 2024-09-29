@@ -1,5 +1,6 @@
 package com.example.gratitude.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,9 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.gratitude.R
+import com.example.gratitude.activities.LandingActivity
 import com.example.gratitude.databinding.FragmentSectionBinding
+import com.example.gratitude.helper.ISIMAGE
 import com.example.gratitude.helper.SECTIONNAME
 import com.example.gratitude.helper.VISIONNAME
 import com.example.gratitude.prefmanager.PrefManager
@@ -30,7 +34,7 @@ class SectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val activity = requireActivity() as LandingActivity
         binding.btnContinue.isEnabled = false
 
         binding.tvName2.setOnClickListener {
@@ -40,11 +44,21 @@ class SectionFragment : Fragment() {
 
         binding.btnContinue.setOnClickListener {
             prefManager.setSectionName(SECTIONNAME, binding.searchBar.text.toString())
+            prefManager.setIsSectionMade(ISIMAGE, true)
             if (binding.btnContinue.isEnabled) {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_container, AddPhotosFragment())
                     .commit()
             }
+        }
+        val toolbar = activity.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_24)
+
+        toolbar.setNavigationOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_container, VisionBoardFragment())
+                .commit()
+
         }
 
         binding.searchBar.addTextChangedListener(object : TextWatcher {
@@ -54,10 +68,10 @@ class SectionFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val isEnabled = !s.isNullOrEmpty()
-                binding.btnContinue.isEnabled = true
+                binding.btnContinue.isEnabled = isEnabled
                 binding.btnContinue.setBackgroundColor(
                     ContextCompat.getColor(requireContext(),
-                        if (isEnabled) R.color.purple else R.color.white)
+                        if (isEnabled) R.color.yellow else R.color.white)
                 )
             }
 

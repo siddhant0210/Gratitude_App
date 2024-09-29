@@ -22,9 +22,10 @@ class BaseActivity : AppCompatActivity() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
     private val imageList = listOf(
-        ItemImageSlider("Welcome to Gratitude","The mindfulness and self-care tool of India",R.drawable.pic1gratitude),
-        ItemImageSlider("Build a Grateful mindset","with guided prompt and challenges",R.drawable.pic2gratitude),
-        ItemImageSlider("Visualize Your Goals","with powerful vision board",R.drawable.pic1gratitude)
+        ItemImageSlider("Welcome to Gratitude","The Mindfulness and Self-Care Tool of INDIA",R.drawable.grati1),
+        ItemImageSlider("Build a Grateful mindset","With Guided Prompt and Challenges",R.drawable.grati2),
+        ItemImageSlider("Visualize Your Goals","With Powerful Vision Board",R.drawable.grati6),
+        ItemImageSlider("Stay inspired", "Using Motivating Quotes", R.drawable.grati5)
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,21 +61,10 @@ class BaseActivity : AppCompatActivity() {
                     currentPage = 0;
                 }
                 binding.viewPager.setCurrentItem(currentPage++,true)
-                handler.postDelayed(this, 3000)
+                handler.postDelayed(this, 4000)
             }
         }
-        handler.postDelayed(runnable, 3000)
-    }
-
-
-
-    override fun onResume() {
-        super.onResume()
         handler.postDelayed(runnable, 4000)
     }
 
-    override fun onPause() {
-        super.onPause()
-        handler.removeCallbacks(runnable)
-    }
 }

@@ -25,20 +25,29 @@ class PrefManager(context: Context) {
         return pref?.getBoolean(key, false)!!
     }
 
-    fun setVisionName(key:String, id: String){
-        pref?.edit{putString(key, id)}
+    fun setIsSectionMade(key: String, value: Boolean) {
+        pref?.edit { putBoolean(key, value) }
     }
 
-    fun getVisionName(key: String):String?{
+    fun getIsSectionMade(key: String): Boolean {
+        return pref?.getBoolean(key, false)!!
+    }
+
+    fun setVisionName(key: String, id: String) {
+        pref?.edit { putString(key, id) }
+    }
+
+    fun getVisionName(key: String): String? {
         return pref?.getString(key, "")
     }
 
-    fun setSectionName(key: String, id: String){
-        pref?.edit{putString(key,id)}
+    fun setSectionName(key: String, id: String) {
+        pref?.edit { putString(key, id) }
     }
 
-    fun getSectionName(key: String): String?{
+    fun getSectionName(key: String): String? {
         return pref?.getString(key, "")
     }
+
 
 }

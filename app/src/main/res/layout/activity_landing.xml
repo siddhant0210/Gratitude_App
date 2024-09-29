@@ -25,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:background="@color/white"
                 android:src="@drawable/round_person_24"
                 android:background="@color/yellow"
                 android:visibility="visible" />
@@ -55,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:background="@color/white"
                 android:layout_marginEnd="16dp"
                 android:background="@color/yellow"
                 android:src="@drawable/outline_local_fire_department_24"

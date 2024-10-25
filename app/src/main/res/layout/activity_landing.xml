@@ -79,5 +79,6 @@
         android:layout_alignParentBottom="true"
         android:background="@color/yellow"
         android:visibility="visible"
+        android:foreground="@null"
         app:menu="@menu/bottom_nav" />
 </RelativeLayout>

@@ -5,29 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gratitude.R
+import com.example.gratitude.adapters.AffirmationAdapter
+import com.example.gratitude.databinding.FragmentBottom2Binding
+import com.example.gratitude.models.AffirmationData
+import com.example.gratitude.prefmanager.PrefManager
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Bottom2Fragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Bottom2Fragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentBottom2Binding
+    private lateinit var prefManager: PrefManager
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var affirmationAdapter: AffirmationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,26 +30,72 @@ class Bottom2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bottom2, container, false)
+        binding = FragmentBottom2Binding.inflate(layoutInflater, container, false)
+        prefManager = PrefManager(requireContext())
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        val affirmationList = listOf(
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 1",
+                "Description 1"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 2",
+                "Description goes here"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 3",
+                "Description 3"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 4",
+                "Description 4"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 5",
+                "Description 5"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 6",
+                "Description 6"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 7",
+                "Description 7"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 8",
+                "Description 8"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 9",
+                "Description 9"
+            ),
+            AffirmationData(
+                "https://blog.gratefulness.me/content/images/size/w1000/2024/05/jade-story-root-yourself-in-joy.jpg",
+                "Affirmation 10",
+                "Description 10"
+            )
+
+        )
+
+        affirmationAdapter = AffirmationAdapter(affirmationList)
+        binding.recyclerView.adapter = affirmationAdapter
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Bottom2Fragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Bottom2Fragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
+
 }
